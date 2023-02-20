@@ -13,6 +13,9 @@ class Player:
     def movement(self):
         self.r = True
 
+        print()
+        print()
+
         while self.r:
             try:
                 self.number = int(input("\rYour turn -> "))
@@ -25,11 +28,11 @@ class Player:
                     return board(self.rows)
 
                 else:
-                    print(colored("\rInvalid input", "red"), end="")
+                    print(colored("\rInvalid input...", "red"), end="")
                     time.sleep(2)
 
             except ValueError:
-                print(colored("\rInvalid input", "red"), end="")
+                print(colored("\rInvalid input...", "red"), end="")
                 time.sleep(2)
 
 
@@ -43,7 +46,7 @@ class Bot:
         try:
             random_movement = random.choice(self.available_movements)
         except IndexError:
-            return ""
+            pass
 
         if random_movement in self.rows:
             self.available_movements.remove(random_movement)
@@ -51,7 +54,9 @@ class Bot:
             position = self.rows.index(random_movement)
             self.rows[position] = self.symbol_bot
 
-            return board(self.rows)   
+            string = f"Computer move: position {random_movement}"
+
+            return string
 
 
 def game(dict_symbols):
@@ -67,7 +72,6 @@ def game(dict_symbols):
     print(f"\n> Your symbol: {colored(dict_symbols['Player'], 'green')}")
     print(f"> Bot's symbol: {colored(dict_symbols['Bot'], 'red')}")
 
-
     if first_move == dict_symbols["Player"]:
         print(f"> First move by: {colored(dict_symbols['Player'], 'green')}")
     else:
@@ -76,55 +80,80 @@ def game(dict_symbols):
     input("\nPress Enter to continue...")
 
     if first_move == dict_symbols["Bot"]:
-        Bot(dict_symbols["Bot"], available_movements, rows).movement()
+        text_movement = Bot(dict_symbols["Bot"], available_movements, rows).movement()
         last_movement = dict_symbols["Bot"]
+        board(rows)
+
+        movement_bot_message(text_movement)
     else:
         Player(dict_symbols["Player"], available_movements, rows).movement()
         last_movement = dict_symbols["Player"]
     
     r = True
     while r:
+        check_tris_bot = check_tris(dict_symbols["Bot"], rows)
+        check_tris_player = check_tris(dict_symbols["Player"], rows)
+        
+        if check_tris_bot == None and check_tris_player == None:
 
-        if last_movement == dict_symbols["Player"]:
-            check_tris_bot = check_tris(dict_symbols["Bot"], rows)
-
-
-            if check_tris_bot == None:
-                Bot(dict_symbols["Bot"], available_movements, rows).movement()
+            if last_movement == dict_symbols["Player"]:
+                text_movement = Bot(dict_symbols["Bot"], available_movements, rows).movement()
                 check_tris(dict_symbols["Bot"], rows)
                 last_movement = dict_symbols["Bot"]
+
+                board(rows)
+                movement_bot_message(text_movement)
+
             else:
+                check_tris_player = check_tris(dict_symbols["Player"], rows)
+
+                Player(dict_symbols["Player"], available_movements, rows).movement()
+                check_tris(dict_symbols["Player"], rows)
+                last_movement = dict_symbols["Player"]
+
+                board(rows)
+
+        else:
+            if check_tris_bot != None:
                 r = False
                 message, symbol = check_tris_bot.split(":")
                 print(f"{message}:{colored(symbol, 'red')}")
                 print()
 
-                for i in range(5, 0, -1):
-                    print(f"\rRestart gameplay in {i}...", end="")
-                    time.sleep(1)
+                input("\nPress Enter to restart...")
 
                 subprocess.run('clear', shell=True)
                 choose_symbol()
-        else:
 
-            check_tris_player = check_tris(dict_symbols["Player"], rows)
-
-            if check_tris_player == None:
-                Player(dict_symbols["Player"], available_movements, rows).movement()
-                check_tris(dict_symbols["Player"], rows)
-                last_movement = dict_symbols["Player"]
-            else:
+            if check_tris_player != None:
                 r = False
                 message, symbol = check_tris_player.split(":")
                 print(f"{message}:{colored(symbol, 'green')}")
                 print()
 
-                for i in range(5, 0, -1):
-                    print(f"\rRestart gameplay in {i}...", end="")
-                    time.sleep(1)
+                input("\nPress Enter to restart...")
 
                 subprocess.run('clear', shell=True)
+                
                 choose_symbol()
+
+        if available_movements == []:
+            print("\nNo winners this time! Try Again...")
+
+            input("\nPress Enter to restart...")
+            subprocess.run('clear', shell=True)
+            choose_symbol()
+
+
+def movement_bot_message(text_movement):
+    print()
+
+    text_movement_update = ""
+
+    for i in text_movement:
+        text_movement_update = text_movement_update + i
+        print(f"\r{text_movement_update}", end="")
+        time.sleep(0.05)
 
 
 def check_tris(symbol, rows):
@@ -211,7 +240,7 @@ def main():
     ((                             ))
       -----------------------------  """, "blue"))
           
-    print(colored("\n• If you want exit in any moment, press [ctrl+c], it will exit you from the program. \n  (You should don't care of the message that it will display to you)", "red"))
+    print(colored("\n• To exit, press [ctrl+c]", "red"))
 
     input("\nPress Enter to continue...")
     subprocess.run('clear', shell=True)
@@ -223,3 +252,7 @@ if __name__ == "__main__":
 
 
 # Check if nobody has win
+# Create comment of each function
+
+# Effetto sonoro ogni positione
+# EFfetto sono all'inizio
