@@ -226,8 +226,6 @@ def movement_bot_message(text_movement):
 
 
 def check_tris(symbol, rows):
-    print(rows)
-
     if symbol == "X":
         symbol = '\x1b[32mX\x1b[0m'
 
