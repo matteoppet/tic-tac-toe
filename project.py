@@ -3,6 +3,50 @@ from termcolor import colored
 import subprocess # Doesn't need an installation
 import random # Doesn't need an installation
 
+import pygame
+from pygame import mixer 
+from time import sleep
+
+import os # Doesn't need an installation
+
+# Clear command for clean the terminal
+if os.name == "nt":
+    clear_command = "cls"
+else:
+    clear_command = "clear"
+
+class Sounds:
+    try:
+        mixer.init()
+
+        @staticmethod
+        def opening():
+            openingSound = mixer.Sound("audio/opening.wav")
+            mixer.Sound.play(openingSound)
+            sleep(2)
+            mixer.music.stop()
+
+        @staticmethod
+        def game_over():
+            gameOver = mixer.Sound("audio/game_over.wav")
+            mixer.Sound.play(gameOver)
+            sleep(2)
+            mixer.music.stop()
+
+        @staticmethod
+        def win():
+            win = mixer.Sound("audio/win.wav")
+            mixer.Sound.play(win)
+            sleep(2)
+            mixer.music.stop()
+
+        @staticmethod
+        def typing():
+            typing = mixer.Sound("audio/typing.wav")
+            mixer.Sound.play(typing)
+
+    except pygame.error:
+        pass
 
 class Player:
     def __init__(self, symbol_player, available_movements, rows):
@@ -56,7 +100,7 @@ class Bot:
 
             string = f"Computer move: position {random_movement}"
 
-            return string
+            return string 
 
 
 def game(dict_symbols):
@@ -79,15 +123,7 @@ def game(dict_symbols):
 
     input("\nPress Enter to continue...")
 
-    if first_move == dict_symbols["Bot"]:
-        text_movement = Bot(dict_symbols["Bot"], available_movements, rows).movement()
-        last_movement = dict_symbols["Bot"]
-        board(rows)
-
-        movement_bot_message(text_movement)
-    else:
-        Player(dict_symbols["Player"], available_movements, rows).movement()
-        last_movement = dict_symbols["Player"]
+    last_movement = check_first_move(first_move, dict_symbols, available_movements, rows)
     
     r = True
     while r:
@@ -120,9 +156,15 @@ def game(dict_symbols):
                 print(f"{message}:{colored(symbol, 'red')}")
                 print()
 
+                try:
+                    Sounds.game_over()
+                except AttributeError:
+                    pass
+
+
                 input("\nPress Enter to restart...")
 
-                subprocess.run('clear', shell=True)
+                subprocess.run(f'{clear_command}', shell=True)
                 choose_symbol()
 
             if check_tris_player != None:
@@ -131,24 +173,47 @@ def game(dict_symbols):
                 print(f"{message}:{colored(symbol, 'green')}")
                 print()
 
+                try:
+                    Sounds.win()
+                except AttributeError:
+                    pass
+
                 input("\nPress Enter to restart...")
 
-                subprocess.run('clear', shell=True)
+                subprocess.run(f'{clear_command}', shell=True)
                 
                 choose_symbol()
 
-        if available_movements == []:
-            print("\nNo winners this time! Try Again...")
+            if available_movements == []:
+                print("\nNo winners this time! Try Again...")
 
-            input("\nPress Enter to restart...")
-            subprocess.run('clear', shell=True)
-            choose_symbol()
+                input("\nPress Enter to restart...")
+                subprocess.run(f'{clear_command}', shell=True)
+                choose_symbol()
+
+
+def check_first_move(first_move, dict_symbols, available_movements, rows):
+    if first_move == dict_symbols["Bot"]:
+        text_movement = Bot(dict_symbols["Bot"], available_movements, rows).movement()
+        board(rows)
+        movement_bot_message(text_movement)
+
+        return dict_symbols["Bot"]
+
+    else:
+        Player(dict_symbols["Player"], available_movements, rows).movement()
+        return dict_symbols["Player"]
 
 
 def movement_bot_message(text_movement):
     print()
 
     text_movement_update = ""
+
+    try:
+        Sounds.typing()
+    except AttributeError:
+        pass
 
     for i in text_movement:
         text_movement_update = text_movement_update + i
@@ -201,7 +266,7 @@ def assign_symbol(symbol_player):
 
 
 def board(rows):
-    subprocess.run('clear', shell=True)
+    subprocess.run(f'{clear_command}', shell=True)
 
     for i in rows:
         if i == "X":
@@ -233,6 +298,8 @@ def choose_symbol():
 
 
 def main():
+    subprocess.run(f'{clear_command}', shell=True)
+
     print(colored("""
       _____________________________  
     ((                             ))
@@ -242,17 +309,17 @@ def main():
           
     print(colored("\n• To exit, press [ctrl+c]", "red"))
 
+    try:
+        Sounds.opening()
+    except AttributeError:
+        pass
+
     input("\nPress Enter to continue...")
-    subprocess.run('clear', shell=True)
+
+    subprocess.run(f'{clear_command}', shell=True)
     choose_symbol()
 
 
 if __name__ == "__main__":
     main()
 
-
-# Check if nobody has win
-# Create comment of each function
-
-# Effetto sonoro ogni positione
-# EFfetto sono all'inizio
