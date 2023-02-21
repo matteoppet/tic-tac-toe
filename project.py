@@ -48,6 +48,7 @@ class Sounds:
     except pygame.error:
         pass
 
+
 class Player:
     def __init__(self, symbol_player, available_movements, rows):
         self.symbol_player = symbol_player
@@ -115,11 +116,7 @@ def game(dict_symbols):
     board(rows)
     print(f"\n> Your symbol: {colored(dict_symbols['Player'], 'green')}")
     print(f"> Bot's symbol: {colored(dict_symbols['Bot'], 'red')}")
-
-    if first_move == dict_symbols["Player"]:
-        print(f"> First move by: {colored(dict_symbols['Player'], 'green')}")
-    else:
-        print(f"> First move by: {colored(dict_symbols['Bot'], 'red')}")
+    print(first_move_information(first_move, dict_symbols))
 
     input("\nPress Enter to continue...")
 
@@ -192,6 +189,13 @@ def game(dict_symbols):
                 choose_symbol()
 
 
+def first_move_information(first_move, dict_symbols):
+    if first_move == dict_symbols["Player"]:
+            return f"> First move by: {colored(dict_symbols['Player'], 'green')}"
+    else:
+        return f"> First move by: {colored(dict_symbols['Bot'], 'red')}"
+
+
 def check_first_move(first_move, dict_symbols, available_movements, rows):
     if first_move == dict_symbols["Bot"]:
         text_movement = Bot(dict_symbols["Bot"], available_movements, rows).movement()
@@ -222,6 +226,8 @@ def movement_bot_message(text_movement):
 
 
 def check_tris(symbol, rows):
+    print(rows)
+
     if symbol == "X":
         symbol = '\x1b[32mX\x1b[0m'
 
