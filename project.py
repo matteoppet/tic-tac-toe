@@ -1,19 +1,21 @@
-import time # Doesn't need an installationj
+import time
 from termcolor import colored
-import subprocess # Doesn't need an installation
-import random # Doesn't need an installation
+import subprocess
+import random
 
 import pygame
 from pygame import mixer 
 from time import sleep
 
-import os # Doesn't need an installation
+import os
+
 
 # Clear command for clean the terminal
 if os.name == "nt":
     clear_command = "cls"
 else:
     clear_command = "clear"
+
 
 class Sounds:
     try:
@@ -175,7 +177,7 @@ def game(dict_symbols):
                 except AttributeError:
                     pass
 
-                input("\nPress Enter to restart...")
+                input("Press Enter to restart...")
 
                 subprocess.run(f'{clear_command}', shell=True)
                 
@@ -326,4 +328,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
