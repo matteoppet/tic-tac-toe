@@ -52,8 +52,8 @@ class Sounds:
 
 
 class Player:
-    def __init__(self, symbol_player, available_movements, rows):
-        self.symbol_player = symbol_player
+    def __init__(self, symbols, available_movements, rows):
+        self.symbols = symbols
         self.available_movements = available_movements
         self.rows = rows
 
@@ -70,9 +70,9 @@ class Player:
                 if self.number in self.rows:
                     self.available_movements.remove(self.number)
                     position = self.rows.index(self.number)
-                    self.rows[position] = self.symbol_player
+                    self.rows[position] = self.symbols["Player"]
 
-                    return board(self.rows)
+                    return board(self.rows, self.symbols)
 
                 else:
                     print(colored("\rInvalid input...", "red"), end="")
@@ -115,7 +115,7 @@ def game(dict_symbols):
 
     first_move = random.choice(['X', 'O'])
 
-    board(rows)
+    board(rows, dict_symbols)
     print(f"\n> Your symbol: {colored(dict_symbols['Player'], 'green')}")
     print(f"> Bot's symbol: {colored(dict_symbols['Bot'], 'red')}")
     print(first_move_information(first_move, dict_symbols))
@@ -126,27 +126,25 @@ def game(dict_symbols):
     
     r = True
     while r:
-        check_tris_bot = check_tris(dict_symbols["Bot"], rows)
-        check_tris_player = check_tris(dict_symbols["Player"], rows)
+        check_tris_bot = check_tris(dict_symbols["Bot"], rows, dict_symbols)
+        check_tris_player = check_tris(dict_symbols["Player"], rows, dict_symbols)
         
         if check_tris_bot == None and check_tris_player == None:
 
             if last_movement == dict_symbols["Player"]:
                 text_movement = Bot(dict_symbols["Bot"], available_movements, rows).movement()
-                check_tris(dict_symbols["Bot"], rows)
+                check_tris(dict_symbols["Bot"], rows, dict_symbols)
                 last_movement = dict_symbols["Bot"]
 
-                board(rows)
+                board(rows, dict_symbols)
                 movement_bot_message(text_movement)
 
             else:
-                check_tris_player = check_tris(dict_symbols["Player"], rows)
-
-                Player(dict_symbols["Player"], available_movements, rows).movement()
-                check_tris(dict_symbols["Player"], rows)
+                Player(dict_symbols, available_movements, rows).movement()
+                check_tris(dict_symbols["Player"], rows, dict_symbols)
                 last_movement = dict_symbols["Player"]
 
-                board(rows)
+                board(rows, dict_symbols)
 
         else:
             if check_tris_bot != None:
@@ -161,7 +159,7 @@ def game(dict_symbols):
                     pass
 
 
-                input("\nPress Enter to restart...")
+                input("Press Enter to restart...")
 
                 subprocess.run(f'{clear_command}', shell=True)
                 choose_symbol()
@@ -201,13 +199,13 @@ def first_move_information(first_move, dict_symbols):
 def check_first_move(first_move, dict_symbols, available_movements, rows):
     if first_move == dict_symbols["Bot"]:
         text_movement = Bot(dict_symbols["Bot"], available_movements, rows).movement()
-        board(rows)
+        board(rows, dict_symbols)
         movement_bot_message(text_movement)
 
         return dict_symbols["Bot"]
 
     else:
-        Player(dict_symbols["Player"], available_movements, rows).movement()
+        Player(dict_symbols, available_movements, rows).movement()
         return dict_symbols["Player"]
 
 
@@ -227,12 +225,12 @@ def movement_bot_message(text_movement):
         time.sleep(0.05)
 
 
-def check_tris(symbol, rows):
-    if symbol == "X":
-        symbol = '\x1b[32mX\x1b[0m'
+def check_tris(symbol, rows, dict_symbols):
 
-    if symbol == "O":
-        symbol = '\x1b[31mO\x1b[0m'
+    if symbol == dict_symbols["Player"]:
+        symbol = f'\x1b[32m{symbol}\x1b[0m'
+    else:
+        symbol = f'\x1b[31m{symbol}\x1b[0m'
     
     victory_message = f"\nThe winner of this game is: {symbol}"
 
@@ -271,16 +269,17 @@ def assign_symbol(symbol_player):
         return {"Player": symbol_player, "Bot": symbol_bot}
 
 
-def board(rows):
+def board(rows, dict_symbols):
     subprocess.run(f'{clear_command}', shell=True)
 
     for i in rows:
-        if i == "X":
+        if i == dict_symbols["Player"]:
             position = rows.index(i)
-            rows[position] = colored("X", "green")
-        if i == "O":
+            rows[position] = colored(dict_symbols["Player"], "green")
+        if i == dict_symbols["Bot"]:
             position = rows.index(i)
-            rows[position] = colored("O", "red")
+            rows[position] = colored(dict_symbols["Bot"], "red")
+
 
     print(f" {rows[0]} {colored('|', 'yellow')} {rows[1]} {colored('|', 'yellow')} {rows[2]}")
     print(f" {colored('—', 'yellow')}   {colored('—', 'yellow')}   {colored('—', 'yellow')}")
