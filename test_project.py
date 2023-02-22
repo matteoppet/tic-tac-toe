@@ -7,6 +7,11 @@ def test_assign_symbol():
 
 
 def test_check_tris():
+    ''''
+        X in green = \x1b[32mX\x1b[0m
+        O in red = \x1b[31mO\x1b[0m
+    '''
+
     # Win X
     win_x_horizontal = ['\x1b[32mX\x1b[0m', '\x1b[32mX\x1b[0m', '\x1b[32mX\x1b[0m', 4, 5, 6, 7, 8, 9]
     win_x_diagonal = ['\x1b[32mX\x1b[0m', 2, 3, 4, '\x1b[32mX\x1b[0m', 6, 7, 8, '\x1b[32mX\x1b[0m']
