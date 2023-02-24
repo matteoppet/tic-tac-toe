@@ -191,7 +191,7 @@ def game(dict_symbols):
 
 def first_move_information(first_move, dict_symbols):
     if first_move == dict_symbols["Player"]:
-            return f"> First move by: {colored(dict_symbols['Player'], 'green')}"
+        return f"> First move by: {colored(dict_symbols['Player'], 'green')}"
     else:
         return f"> First move by: {colored(dict_symbols['Bot'], 'red')}"
 
@@ -312,7 +312,7 @@ def main():
     ((                             ))
       -----------------------------  """, "blue"))
           
-    print(colored("\n• To exit, press [ctrl+c]", "red"))
+    print(colored("\n• To exit, press [ctrl+z]", "red"))
 
     try:
         Sounds.opening()
