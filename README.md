@@ -39,6 +39,25 @@ This project was done as a Final Project for CS50P
   
 - ```Bot``` > This class contains everything about the bot, and inside there is a function ( ```movement()``` ) that manages the movement of the bot around the board.
 
+##### Functions:
+- ```game()``` > This function is the main part for the game, in this function there are all the functions that are needed for the game and in addition everything related to the moment of the game is performed
+  
+- ```first_move_information()``` > This function checks for who moves first and then writes it down as information as soon as you start the game.
+  
+- ```check_first_move()``` > This function checks for who moves first and based on who moves first, the class is called so as to have its move executed, returning the symbol of who moved.
+  
+- ```movement_bot_message()``` > This function is called only if it's the bot's turn to move, and is called after the bot makes the move so as to be able to transcribe the position chosen by the bot, accompanied by an animation and a sound effect.
+  
+- ```check_tris()``` > In this function the whole check is performed if one of the two wins, returning the string with the symbol of the winner, red if it is from the bot or green if the player wins.
+  
+- ```assign_symbol()``` > This function assigns the symbol to each player, if the player chooses X the bot is assigned O, and vice versa, returning a dictionary with the symbol of the player and the bot.
+  
+- ```board()``` > This function prints the whole table placing the various symbols chosen in their positions.
+ 
+- ```choose_symbol()``` > This function allows the player to choose the symbol, it will always be the player who chooses the symbol first.
+  
+- ```main()``` > This function is the first to be called and executed when the program starts, this function prints the welcome message and to start the game just press the Enter key.
+  
 </p>
 </details>
 
@@ -50,6 +69,7 @@ This project was done as a Final Project for CS50P
 Video link youtube: ###
 
 [![asciicast](https://asciinema.org/a/1mpvEY3OCAQdQCA1AUBklk0iI.svg)](https://asciinema.org/a/1mpvEY3OCAQdQCA1AUBklk0iI)
+<div dir="rtl">
 Little demo of the game
 
 ## Run Locally
