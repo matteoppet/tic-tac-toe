@@ -71,6 +71,7 @@ Video link youtube: ###
 [![asciicast](https://asciinema.org/a/1mpvEY3OCAQdQCA1AUBklk0iI.svg)](https://asciinema.org/a/1mpvEY3OCAQdQCA1AUBklk0iI)
 <div dir="rtl">
 Little demo of the game
+</div>
 
 ## Run Locally
 
