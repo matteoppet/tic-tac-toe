@@ -24,28 +24,31 @@ class Sounds:
         @staticmethod
         def opening():
             openingSound = mixer.Sound("audio/opening.wav")
-            mixer.Sound.play(openingSound)
+            openingSound.play()
+            openingSound.set_volume(0.1)
             sleep(2)
             mixer.music.stop()
 
         @staticmethod
         def game_over():
             gameOver = mixer.Sound("audio/game_over.wav")
-            mixer.Sound.play(gameOver)
+            gameOver.play()
+            gameOver.set_volume(0.1)
             sleep(2)
             mixer.music.stop()
 
         @staticmethod
         def win():
             win = mixer.Sound("audio/win.wav")
-            mixer.Sound.play(win)
+            win.play()
+            win.set_volume(0.1)
             sleep(2)
             mixer.music.stop()
 
         @staticmethod
         def typing():
             typing = mixer.Sound("audio/typing.wav")
-            mixer.Sound.play(typing)
+            typing.play()
 
     except pygame.error:
         pass
@@ -312,7 +315,7 @@ def main():
     ((                             ))
       -----------------------------  """, "blue"))
           
-    print(colored("\n• To exit, press [ctrl+z]", "red"))
+    print(colored("\n• To exit, press:\n    Linux: [ctrl+z]\n    Windows: [ctrl+c]", "red"))
 
     try:
         Sounds.opening()
