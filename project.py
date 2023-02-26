@@ -60,7 +60,18 @@ class Player:
         self.available_movements = available_movements
         self.rows = rows
 
+        if self.available_movements == []:
+            exit()
+
     def movement(self):
+
+        if self.available_movements == []:
+            print("\nNo winners this time! Try Again...")
+
+            input("\nPress Enter to restart...")
+            subprocess.run(f'{clear_command}', shell=True)
+            choose_symbol()
+
         self.r = True
 
         print()
@@ -93,6 +104,14 @@ class Bot:
         self.rows = rows
 
     def movement(self):
+
+        if self.available_movements == []:
+            print("\nNo winners this time! Try Again...")
+
+            input("\nPress Enter to restart...")
+            subprocess.run(f'{clear_command}', shell=True)
+            choose_symbol()
+
         try:
             random_movement = random.choice(self.available_movements)
         except IndexError:
@@ -182,13 +201,6 @@ def game(dict_symbols):
 
                 subprocess.run(f'{clear_command}', shell=True)
                 
-                choose_symbol()
-
-            if available_movements == []:
-                print("\nNo winners this time! Try Again...")
-
-                input("\nPress Enter to restart...")
-                subprocess.run(f'{clear_command}', shell=True)
                 choose_symbol()
 
 
