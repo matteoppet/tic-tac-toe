@@ -205,6 +205,8 @@ def game(dict_symbols):
 
 
 def first_move_information(first_move, dict_symbols):
+    """ Check who will make the first move and return it """
+
     if first_move == dict_symbols["Player"]:
         return f"> First move by: {colored(dict_symbols['Player'], 'green')}"
     else:
@@ -212,6 +214,8 @@ def first_move_information(first_move, dict_symbols):
 
 
 def check_first_move(first_move, dict_symbols, available_movements, rows):
+    """ Check the variable "first_move" and based on the symbol, make the first move """
+
     if first_move == dict_symbols["Bot"]:
         text_movement = Bot(dict_symbols["Bot"], available_movements, rows).movement()
         board(rows, dict_symbols)
@@ -225,6 +229,8 @@ def check_first_move(first_move, dict_symbols, available_movements, rows):
 
 
 def movement_bot_message(text_movement):
+    """ Transcribed message of bot movement """
+
     print()
 
     text_movement_update = ""
@@ -241,6 +247,7 @@ def movement_bot_message(text_movement):
 
 
 def check_tris(symbol, rows, dict_symbols):
+    """ Check for any win and return the symbol that won """
 
     if symbol == dict_symbols["Player"]:
         symbol = f'\x1b[32m{symbol}\x1b[0m'
@@ -273,6 +280,8 @@ def check_tris(symbol, rows, dict_symbols):
 
 
 def assign_symbol(symbol_player):
+    """ Assign the symbol to the player & bot"""
+
     symbol_player = symbol_player
 
     if symbol_player == "X":
@@ -285,6 +294,8 @@ def assign_symbol(symbol_player):
 
 
 def board(rows, dict_symbols):
+    """ Print out the board """
+
     subprocess.run(f'{clear_command}', shell=True)
 
     for i in rows:
@@ -304,6 +315,8 @@ def board(rows, dict_symbols):
 
 
 def choose_symbol():
+    """ Have the player pick the symbol """
+
     r = True
     while r:
         symbol_player = input("\rWhich symbol do you want? (X, O): ").upper()
