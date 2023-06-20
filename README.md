@@ -1,4 +1,4 @@
-# Tik Tak Toe Project
+# Tic Tac Toe Project
 
 This project was done as a Final Project for CS50P
 
