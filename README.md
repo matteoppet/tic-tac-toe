@@ -117,3 +117,5 @@ These are the test functions implemented for now:
 > test_check_tris()
 
 > test_first_move_information()
+
+15
